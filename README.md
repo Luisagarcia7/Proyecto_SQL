@@ -29,6 +29,7 @@ Este repositorio recoge los ejercicios que he ido realizando para practicar SQL 
 
 📂 Estructura del repositorio
 /sql/
+   ├── BBDD_Proyecto_shakila_sinuser
    ├── Diagrama_proyecto
    └── proyecto_SQL
 README.md
