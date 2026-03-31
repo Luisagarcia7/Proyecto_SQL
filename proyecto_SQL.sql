@@ -141,7 +141,7 @@ from actor a ;											-- de la tabla actor
 select r.rental_date, 									-- columna renta_date
 		count(r.rental_id) numero_alquiler				-- contar numero de peliculas de alquiler
 from rental r 											-- de la tabla rental
-group by r.rental_date 									-- agrupar por rental_date
+group by r.rental_date 									-- agrupar por rental_id para contar el numero de alquileres por dia
 order by numero_alquiler desc ;							-- ordenar por numero de peliculas de alquiler de forma descendente
 
 -- 24. Encuentra las películas con una duración superior al promedio.
@@ -197,7 +197,7 @@ on f.film_id =i.film_id
 left join rental r 
 on i.inventory_id = r.inventory_id
 	and r.return_date is null 							-- une solo los alquileres activos
-where r.rental_id is null								-- filtrar por las que no estan alquiladas, estan disponibles												
+where r.rental_id							-- filtrar por las que no estan alquiladas, estan disponibles												
 group by f.film_id , f.title 							-- agrupar por pelicula
 order by f.title ;							
 
@@ -364,7 +364,7 @@ group by c.customer_id  ;										-- se agrupa por id del cliente
 
 -- 50. Calcula la duración total de las películas en la categoría 'Action'.
 select c.name as categoria, 									-- mostrar nombre de la categoria y su cantidad de peliculas
-		count(f.film_id) as cantidad_peliculas
+		count(f.length) as cantidad_peliculas
 from film f 
 inner join film_category fc 									-- union de las tablas film, film_categroy
 on f.film_id = fc.film_id 
@@ -416,8 +416,8 @@ on i.inventory_id =r.inventory_id
 inner join film f 
 on f.film_id = i.film_id 
 where concat(c.first_name, ' ', c.last_name)= 'TAMMY SANDERS'	-- mostrar solo las peliculas no devueltas por Tammy Sanders
-	and r.return_date is null
 group by c.customer_id, f.title 								-- agrupar por id del cliente y por la pelicula
+	and r.return_date is null
 order by f.title ;
 
 -- 54. Encuentra los nombres de los actores que han actuado en al menos una 
@@ -437,7 +437,6 @@ on f.film_id = fc.film_id
 inner join category c 
 on c.category_id = fc.category_id 
 where c."name" = 'Sci-Fi'										-- mostrar solo la catgoria Sci-Fi
-group by a.actor_id, categoria 									-- agrupar por id del actor y categoria
 order by apellido  ;											-- ordenar por apellido
 
 -- 55.  Encuentra el nombre y apellido de los actores que han actuado en 
